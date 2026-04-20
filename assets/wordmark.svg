@@ -116,21 +116,19 @@
         font-kerning="normal"
         style="font-feature-settings: 'kern' 1">LAVRADOR</text>
 
-  <!-- Thin rules flanking MODDING — Round 4 clearance fix.
-       Previous positions (x1=22..x2=56, x1=116..x2=150) were tuned for
-       cairosvg's Pango rendering path which stretched MODDING to the full
-       textLength=68 envelope. resvg honours OpenType metrics + textLength
-       together but renders MODDING within its actual glyph geometry —
-       measured span at 6× raster: viewBox x=51.33..118.17 (width 66.83).
-       Old left rule ended at x=56 → collided with M by 4.67 px.
-       Old right rule started at x=116 → collided with G by 2.17 px.
-       Round 4 technique: measure MODDING extents with resvg, set equal
-       4.5 px clear-space each side (64% of cap-height ≈7 px, well above
-       the 50% floor), shorten rules to 26 px so both clear the flanking
-       wheat stalks (left-wheat right-edge x=16.49, right-wheat left-edge
-       x=155.51). Rule stroke/weight/opacity/y-position unchanged. -->
-  <line x1="20.83" y1="35" x2="46.83" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
-  <line x1="122.67" y1="35" x2="148.67" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
+  <!-- Thin rules flanking MODDING — Round 5 clearance fix.
+       Round 4 measured rendered glyph extents (51.33..118.17) and clear-spaced
+       from those, but `lengthAdjust="spacing"` makes the textLength=68 envelope
+       (x=52..120, centred on x=86) the layout contract — glyph spacing is
+       adjusted to fill it, so the envelope is what governs neighbouring-element
+       clearance. Round 4's left clearance landed at 5.17 px and right at 2.67
+       px — visibly asymmetric. Round 5 re-derives equal 4.5 px clear-space
+       from the textLength envelope, keeping rule length 26 px. Wheat clearance
+       stays clean (left-wheat right-edge x=16.49 → 5.01 px; right-wheat
+       left-edge x=155.51 → 5.01 px). Stroke/weight/opacity/y-position
+       unchanged. -->
+  <line x1="21.5" y1="35" x2="47.5" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
+  <line x1="124.5" y1="35" x2="150.5" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
 
   <!-- MODDING -->
   <text x="86" y="38"
