@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="172" height="47" viewBox="0 0 172 47">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#253c25"/>
+      <stop offset="100%" stop-color="#0f1f0f"/>
+    </linearGradient>
+
+    <!-- Botanical wheat head (imported from badge.svg, unmodified geometry).
+         Staggered spikelets along a vertical rachis, short awns per spikelet,
+         long awns at the tip, terminal spikelet on-axis. Local box 36×96,
+         tip at top, stem at bottom. overflow="visible" lets tip awns render
+         above y=0 (they extend to y=-14 in symbol space). -->
+    <symbol id="wheat-head" viewBox="0 0 36 96" overflow="visible">
+      <path d="M18 96 Q18 84 18 70" fill="none" stroke="#C9A227"
+            stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M18 70 Q18.4 46 18 22 Q17.8 14 18 8" fill="none"
+            stroke="#C9A227" stroke-width="1.8" stroke-linecap="round"/>
+      <g stroke="#C9A227" stroke-width="1.4" stroke-linecap="round" fill="none">
+        <path d="M18 8 L12 -10"/>
+        <path d="M18 6 L18 -14"/>
+        <path d="M18 8 L24 -10"/>
+      </g>
+      <g>
+        <path d="M18 8 Q12 17 15 25 Q18 21 18 10 Z" fill="#C9A227"/>
+        <path d="M18 8 Q24 17 21 25 Q18 21 18 10 Z" fill="#C9A227"/>
+      </g>
+      <g>
+        <path d="M18 22 Q27 30 24 41 Q18 36 18 24 Z" fill="#C9A227"/>
+        <path d="M25 28 L32 20" stroke="#C9A227" stroke-width="1.2"
+              stroke-linecap="round" fill="none"/>
+      </g>
+      <g>
+        <path d="M18 28 Q9 36 12 47 Q18 42 18 30 Z" fill="#C9A227"/>
+        <path d="M11 34 L4 26" stroke="#C9A227" stroke-width="1.2"
+              stroke-linecap="round" fill="none"/>
+      </g>
+      <g>
+        <path d="M18 40 Q27 48 24 59 Q18 54 18 42 Z" fill="#C9A227"/>
+        <path d="M25 46 L32 39" stroke="#C9A227" stroke-width="1.2"
+              stroke-linecap="round" fill="none"/>
+      </g>
+      <g>
+        <path d="M18 46 Q9 54 12 65 Q18 60 18 48 Z" fill="#C9A227"/>
+        <path d="M11 52 L4 45" stroke="#C9A227" stroke-width="1.2"
+              stroke-linecap="round" fill="none"/>
+      </g>
+      <g>
+        <path d="M18 58 Q26 65 23 74 Q18 70 18 60 Z" fill="#C9A227" opacity="0.95"/>
+        <path d="M24 63 L30 57" stroke="#C9A227" stroke-width="1.1"
+              stroke-linecap="round" fill="none" opacity="0.85"/>
+      </g>
+      <g>
+        <path d="M18 63 Q10 70 13 79 Q18 75 18 65 Z" fill="#C9A227" opacity="0.95"/>
+        <path d="M12 68 L6 62" stroke="#C9A227" stroke-width="1.1"
+              stroke-linecap="round" fill="none" opacity="0.85"/>
+      </g>
+    </symbol>
+  </defs>
+
+  <!-- Background -->
+  <rect width="172" height="47" fill="url(#bg)" rx="2"/>
+
+  <!-- Outer gold border -->
+  <rect x="1" y="1" width="170" height="45" fill="none" stroke="#C9A227" stroke-width="1.5" rx="2"/>
+  <!-- Inner gold border -->
+  <rect x="3.5" y="3.5" width="165" height="40" fill="none" stroke="#C9A227" stroke-width="0.5" rx="1" opacity="0.55"/>
+
+  <!-- Wheat stalk LEFT — botanical, reused from badge.svg wheat-head symbol.
+       Round 2 clearance fix: previous instance at y=8.8, scale 0.345
+       (width=12.4, height=33.12) placed the tip awns at y≈4.4 in viewBox
+       space — but the symbol's long tip awns extend to y=-14 in local
+       symbol space, so at scale 0.345 that's -14 × 0.345 = -4.83 local-px
+       above the <use> y, landing at y≈3.97 — touching the inner frame
+       (y=3.5). Bottom stem at y≈42 was already clean (1.5 px clearance).
+       Top needed a clearance ≈ bottom.
+       Round 2 combo fix: shrink uniformly 0.345 → 0.305 (width 10.98,
+       height 29.28, aspect preserved) AND shift down y 8.8 → 10.6.
+       New tip at y = 10.6 + (-14 × 0.305) = 10.6 − 4.27 = 6.33 → 2.83 px
+       below inner frame (y=3.5).
+       New stem end at y = 10.6 + 96 × 0.305 = 10.6 + 29.28 = 39.88 →
+       3.62 px above inner bottom frame (y=43.5).
+       Top/bottom clearance now ≈ symmetrical-ish (2.8 vs 3.6); both
+       comfortably inside frame, neither touching. -->
+  <use href="#wheat-head" x="5.51" y="10.6" width="10.98" height="29.28"/>
+
+  <!-- Wheat stalk RIGHT — mirrored around viewBox centreline (x=86).
+       translate(172,0) scale(-1,1) flips the same symbol instance horizontally,
+       so asymmetric spikelet staggering mirrors cleanly side-to-side. -->
+  <g transform="translate(172,0) scale(-1,1)">
+    <use href="#wheat-head" x="5.51" y="10.6" width="10.98" height="29.28"/>
+  </g>
+
+  <!-- LAVRADOR — Round 2 revert to native font kerning.
+       Round 1 (per-letter <text> + manual kern deltas carried from
+       badge.svg round 8) solved a problem that doesn't exist on straight
+       horizontal text: cairosvg/Pango DOES apply Cinzel's kerning tables
+       for a single <text> element. The per-pair deltas were overriding
+       the type designer's calibrated metrics with absolute guesses and
+       produced stepped rhythm (L-A wide, V-R wide, A-D wide, D-O close,
+       O-R very close).
+       Round 2 technique: single <text> with the whole word, native
+       kerning enabled via BOTH `font-kerning="normal"` (SVG2 attribute,
+       standards path) and `style="font-feature-settings: 'kern' 1"` (CSS
+       fallback). cairosvg routes text through Pango, which honours the
+       CSS path reliably; the SVG2 attribute is redundant insurance.
+       Baseline y=22 preserved. Horizontal centre x=86. No textLength /
+       lengthAdjust — glyphs render at their natural metric so the word
+       envelope is whatever Cinzel 900 says it is (~128 px, same corridor
+       the wheat was sized against). Per-letter manual kern deltas round
+       1 carried from badge-rim geometry do NOT transfer to straight
+       horizontal text with native kerning available. -->
+  <text x="86" y="22"
+        font-family="'Cinzel','Trajan Pro',Georgia,serif"
+        font-size="18" font-weight="900" fill="#C9A227"
+        text-anchor="middle"
+        font-kerning="normal"
+        style="font-feature-settings: 'kern' 1">LAVRADOR</text>
+
+  <!-- Thin rules flanking MODDING — Round 4 clearance fix.
+       Previous positions (x1=22..x2=56, x1=116..x2=150) were tuned for
+       cairosvg's Pango rendering path which stretched MODDING to the full
+       textLength=68 envelope. resvg honours OpenType metrics + textLength
+       together but renders MODDING within its actual glyph geometry —
+       measured span at 6× raster: viewBox x=51.33..118.17 (width 66.83).
+       Old left rule ended at x=56 → collided with M by 4.67 px.
+       Old right rule started at x=116 → collided with G by 2.17 px.
+       Round 4 technique: measure MODDING extents with resvg, set equal
+       4.5 px clear-space each side (64% of cap-height ≈7 px, well above
+       the 50% floor), shorten rules to 26 px so both clear the flanking
+       wheat stalks (left-wheat right-edge x=16.49, right-wheat left-edge
+       x=155.51). Rule stroke/weight/opacity/y-position unchanged. -->
+  <line x1="20.83" y1="35" x2="46.83" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
+  <line x1="122.67" y1="35" x2="148.67" y2="35" stroke="#C9A227" stroke-width="0.8" opacity="0.65"/>
+
+  <!-- MODDING -->
+  <text x="86" y="38"
+        font-family="'Cinzel',Georgia,serif"
+        font-size="10" font-weight="700" fill="#DFC97E"
+        text-anchor="middle"
+        textLength="68" lengthAdjust="spacing">MODDING</text>
+</svg>

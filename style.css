@@ -1,0 +1,288 @@
+/* Lavrador Modding — landing page
+ * Palette + typography per _assets/brand/BRAND.md §3 + §4.
+ * No external loads. All assets vendored under ./assets/ and ./fonts/.
+ */
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('fonts/Cinzel-900.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('fonts/Fraunces-600.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-400.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-600.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette — BRAND.md §3 / palette.md */
+  --lm-pine:    #0F1F0F;
+  --lm-forest:  #253C25;
+  --lm-gold:    #C9A227;
+  --lm-straw:   #DFC97E;
+  --lm-linen:   #F4EFE4;
+  --lm-ink:     #14110C;
+  --lm-paprika: #B5461F;
+
+  /* Typography */
+  --lm-font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --lm-font-heading: 'Fraunces', Georgia, serif;
+  --lm-font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Derived tokens */
+  --lm-bg:           var(--lm-pine);
+  --lm-bg-plate:     var(--lm-forest);
+  --lm-text:         var(--lm-linen);
+  --lm-text-muted:   var(--lm-straw);
+  --lm-accent:       var(--lm-gold);
+  --lm-border:       rgba(223, 201, 126, 0.18);
+
+  --lm-radius:       6px;
+  --lm-gap:          1.5rem;
+  --lm-maxwidth:     960px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--lm-bg);
+  background-image: linear-gradient(180deg, var(--lm-forest) 0%, var(--lm-pine) 420px);
+  background-repeat: no-repeat;
+  color: var(--lm-text);
+  font-family: var(--lm-font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: var(--lm-maxwidth);
+  margin: 0 auto;
+  padding: 3rem 1.25rem 2rem;
+}
+
+a {
+  color: var(--lm-accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--lm-straw);
+  border-bottom-color: var(--lm-straw);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--lm-straw);
+  outline-offset: 2px;
+}
+
+/* --- Hero ------------------------------------------------------------ */
+
+.hero {
+  text-align: center;
+  padding: 1rem 0 3rem;
+}
+
+.hero-logo {
+  display: block;
+  margin: 0 auto 1.25rem;
+  width: min(100%, 520px);
+  height: auto;
+}
+
+.hero-tagline {
+  font-family: var(--lm-font-heading);
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  color: var(--lm-straw);
+  margin: 0.25rem 0 1.5rem;
+}
+
+.hero-bio {
+  max-width: 56ch;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  color: var(--lm-linen);
+}
+
+/* --- Mods ------------------------------------------------------------ */
+
+.section-heading {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  color: var(--lm-accent);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.mod-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--lm-gap);
+}
+
+.mod-card {
+  background: var(--lm-bg-plate);
+  border: 1px solid var(--lm-border);
+  border-radius: var(--lm-radius);
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.mod-icon {
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 0.25rem;
+  border-radius: var(--lm-radius);
+  background: var(--lm-pine);
+}
+
+.mod-title {
+  font-family: var(--lm-font-heading);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--lm-linen);
+  margin: 0;
+  text-align: center;
+}
+
+.mod-oneliner {
+  color: var(--lm-linen);
+  margin: 0 0 0.5rem;
+  text-align: center;
+  min-height: 3em;
+}
+
+.mod-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  border-radius: var(--lm-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--lm-gold);
+  color: var(--lm-ink);
+  border-color: var(--lm-gold);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--lm-straw);
+  border-color: var(--lm-straw);
+  color: var(--lm-ink);
+}
+
+.btn-disabled {
+  background: transparent;
+  color: var(--lm-straw);
+  border: 1px dashed var(--lm-border);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.mod-meta {
+  margin: 0.25rem 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.link-subtle {
+  color: var(--lm-straw);
+  border-bottom-color: rgba(223, 201, 126, 0.3);
+}
+
+/* --- Footer ---------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lm-border);
+  text-align: center;
+  color: var(--lm-straw);
+  font-size: 0.95rem;
+}
+
+.site-footer p { margin: 0; }
+
+.flag {
+  font-size: 1.1em;
+  vertical-align: -0.05em;
+}
+
+/* --- Small screens --------------------------------------------------- */
+
+@media (max-width: 540px) {
+  main { padding: 2rem 1rem 1.5rem; }
+  .hero-tagline { font-size: 1.15rem; }
+  .hero-bio { font-size: 1rem; }
+  .mod-title { font-size: 1.3rem; }
+}
+
+/* --- Reduced motion -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  a, .btn { transition: none; }
+}
+
+/* --- Overrides: ensure link-subtle inside card stays readable -------- */
+.mod-card a { border-bottom-color: rgba(223, 201, 126, 0.3); }
+.mod-card a:hover,
+.mod-card a:focus-visible { border-bottom-color: var(--lm-straw); }
