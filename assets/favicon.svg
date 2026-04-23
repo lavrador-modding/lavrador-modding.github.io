@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="seal-small" cx="0.5" cy="0.38" r="0.75">
+      <stop offset="0%" stop-color="#2A4528"/>
+      <stop offset="70%" stop-color="#1B2E1B"/>
+      <stop offset="100%" stop-color="#0F1F0F"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Small variant: coin with JUST 'LM'. Stripped for <=128 px use cases
+       (64 px avatar, 32/24 px PR thumb, 16 px favicon). Keeps DNA (plate,
+       outer ring, inner dotted ring) so it reads as same brand family as
+       primary badge, drops rim text + ghost wheat which mush at small sizes.
+
+       LM scale bump 108 -> 120 (+11%): rim text is gone so vertical space
+       above/below LM is empty. Scaling up fills that space proportionally;
+       LM becomes the sole visual anchor as brief intended.
+       Stroke override: NONE. Cinzel 900 is already the heaviest weight
+       available; at fs=120 stem widths are ~14 px which aliases cleanly
+       down to ~1 px at 16 px raster. No artificial stroke thickening needed.
+  -->
+
+  <!-- Circular seal plate -->
+  <circle cx="128" cy="128" r="120" fill="url(#seal-small)"/>
+
+  <!-- Outer gold ring + inner dotted ring (same as primary) -->
+  <circle cx="128" cy="128" r="118" fill="none" stroke="#C9A227" stroke-width="3"/>
+  <circle cx="128" cy="128" r="108" fill="none" stroke="#C9A227" stroke-width="1"
+          opacity="0.5" stroke-dasharray="2 4"/>
+
+  <!-- LM monogram, scaled up to 120, re-centred vertically on optical centre.
+       baseline y=164 positions cap-line ~y=77, giving LM y-span 77-164 with
+       centre at y=120 (8 px above coin true centre 128, which is the Cinzel
+       optical-centre convention - caps weight pulls perceived centre down
+       so anchor needs to sit slightly high). +4 px horizontal nudge preserved
+       (Cinzel L baseline-serif mass correction, see primary badge audit). -->
+  <text x="132" y="164"
+        font-family="'Cinzel','Trajan Pro',Georgia,serif"
+        font-size="120" font-weight="900" fill="#C9A227"
+        text-anchor="middle">LM</text>
+</svg>
