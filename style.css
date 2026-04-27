@@ -1,8 +1,10 @@
 /* Lavrador Modding — landing page
- * Palette + typography per _assets/brand/BRAND.md §3 + §4.
+ * Palette + typography per _assets/brand/BRAND.md §3 / §4.
  * No external loads. All assets vendored under ./assets/ and ./fonts/.
+ * Single broadsheet layout — Forest theme only, accent gold #C9A227 only.
  */
 
+/* ── Vendored faces ──────────────────────────────────────────── */
 @font-face {
   font-family: 'Cinzel';
   src: url('fonts/Cinzel-900.ttf') format('truetype');
@@ -10,7 +12,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Fraunces';
   src: url('fonts/Fraunces-600.ttf') format('truetype');
@@ -18,7 +19,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Inter';
   src: url('fonts/Inter-400.ttf') format('truetype');
@@ -26,7 +26,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Inter';
   src: url('fonts/Inter-600.ttf') format('truetype');
@@ -35,8 +34,9 @@
   font-display: swap;
 }
 
+/* ── Brand tokens (BRAND.md §3 / §4) ─────────────────────────── */
 :root {
-  /* Palette — BRAND.md §3 / palette.md */
+  /* Palette */
   --lm-pine:    #0F1F0F;
   --lm-forest:  #253C25;
   --lm-gold:    #C9A227;
@@ -50,30 +50,42 @@
   --lm-font-heading: 'Fraunces', Georgia, serif;
   --lm-font-body:    'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Derived tokens */
-  --lm-bg:           var(--lm-pine);
-  --lm-bg-plate:     var(--lm-forest);
-  --lm-text:         var(--lm-linen);
-  --lm-text-muted:   var(--lm-straw);
-  --lm-accent:       var(--lm-gold);
-  --lm-border:       rgba(223, 201, 126, 0.18);
+  /* Surface roles */
+  --lm-bg:       var(--lm-pine);
+  --lm-text:     var(--lm-linen);
+  --lm-accent:   var(--lm-gold);
+  --lm-border:   rgba(223, 201, 126, 0.18);
 
-  --lm-radius:       6px;
-  --lm-gap:          1.5rem;
-  --lm-maxwidth:     960px;
+  --lm-radius:   6px;
+
+  /* Broadsheet ink scale */
+  --c-ink:       var(--lm-linen);
+  --c-ink-soft:  rgba(244, 239, 228, 0.92);
+  --c-ink-mute:  rgba(244, 239, 228, 0.55);
+  --c-ink-faint: rgba(244, 239, 228, 0.5);
+  --c-rule:      var(--lm-gold);
+  --c-rule-soft: rgba(201, 162, 39, 0.55);
+  --c-border:    var(--lm-border);
+  --c-figure-bg: radial-gradient(circle at 50% 38%, #2A4528 0%, #1B2E1B 70%, #0F1F0F 100%);
+  --c-meta-k:    rgba(244, 239, 228, 0.5);
+
+  /* Scale */
+  --t-title:    120px;
+  --t-mod:      42px;
+  --t-body:     14.5px;
+  --t-body-lh:  1.7;
+  --t-figure:   200px;
+  --t-colgap:   40px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
+html, body { margin: 0; padding: 0; }
 
 body {
-  background: var(--lm-bg);
-  background-image: linear-gradient(180deg, var(--lm-forest) 0%, var(--lm-pine) 420px);
-  background-repeat: no-repeat;
+  background:
+    linear-gradient(180deg, var(--lm-forest) 0%, var(--lm-pine) 800px),
+    var(--lm-pine);
   color: var(--lm-text);
   font-family: var(--lm-font-body);
   font-weight: 400;
@@ -84,23 +96,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-main {
-  max-width: var(--lm-maxwidth);
-  margin: 0 auto;
-  padding: 3rem 1.25rem 2rem;
-}
-
 a {
   color: var(--lm-accent);
   text-decoration: none;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.35);
-  transition: border-color 120ms ease, color 120ms ease;
-}
-
-a:hover,
-a:focus-visible {
-  color: var(--lm-straw);
-  border-bottom-color: var(--lm-straw);
+  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
 }
 
 a:focus-visible {
@@ -108,181 +107,612 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* --- Hero ------------------------------------------------------------ */
-
-.hero {
-  text-align: center;
-  padding: 1rem 0 3rem;
-}
-
-.hero-logo {
+/* ── Layout shell ────────────────────────────────────────────── */
+.l2c {
+  min-height: 100vh;
+  color: var(--c-ink);
   display: block;
-  margin: 0 auto 1.25rem;
-  width: min(100%, 520px);
-  height: auto;
 }
 
-.hero-tagline {
-  font-family: var(--lm-font-heading);
-  font-weight: 600;
-  font-size: 1.35rem;
-  letter-spacing: 0.01em;
-  color: var(--lm-straw);
-  margin: 0.25rem 0 1.5rem;
-}
-
-.hero-bio {
-  max-width: 56ch;
+.l2c__inner {
+  max-width: 1280px;
   margin: 0 auto;
-  font-size: 1.05rem;
-  color: var(--lm-linen);
+  padding: 72px 80px 96px;
 }
 
-/* --- Mods ------------------------------------------------------------ */
-
-.section-heading {
-  font-family: var(--lm-font-display);
-  font-weight: 900;
-  font-size: 1rem;
-  letter-spacing: 0.22em;
-  color: var(--lm-accent);
-  text-transform: uppercase;
+/* ── Masthead ────────────────────────────────────────────────── */
+.l2c__masthead {
+  border-top: 3px double var(--c-rule);
+  border-bottom: 1px solid var(--c-rule);
+  padding: 22px 0 18px;
+  margin-bottom: 6px;
   text-align: center;
-  margin: 0 0 1.5rem;
 }
 
-.mod-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--lm-gap);
-}
-
-.mod-card {
-  background: var(--lm-bg-plate);
-  border: 1px solid var(--lm-border);
-  border-radius: var(--lm-radius);
-  padding: 1.5rem 1.5rem 1.25rem;
+.l2c__masthead-band {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.75rem;
-}
-
-.mod-icon {
-  display: block;
-  width: 128px;
-  height: 128px;
-  margin: 0 auto 0.25rem;
-  border-radius: var(--lm-radius);
-  background: var(--lm-pine);
-}
-
-.mod-title {
-  font-family: var(--lm-font-heading);
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: var(--lm-linen);
-  margin: 0;
-  text-align: center;
-}
-
-.mod-oneliner {
-  color: var(--lm-linen);
-  margin: 0 0 0.5rem;
-  text-align: center;
-  min-height: 3em;
-}
-
-.mod-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: auto;
-}
-
-.btn {
-  display: inline-block;
-  width: 100%;
-  padding: 0.7rem 1rem;
+  justify-content: space-between;
+  align-items: center;
   font-family: var(--lm-font-body);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--c-ink-mute);
+  margin-bottom: 14px;
+}
+.l2c__masthead-band span:nth-child(2) { color: var(--c-rule); }
+
+.l2c__masthead-title {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: var(--t-title);
+  letter-spacing: 0.05em;
+  color: var(--c-rule);
+  line-height: 0.95;
+  margin: 0;
+}
+
+.l2c__masthead-sub {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.42em;
+  font-variant-caps: all-small-caps;
+  font-feature-settings: 'smcp' 1;
+  color: var(--lm-straw);
+  margin: 6px 0 0;
+}
+
+.l2c__masthead-rule {
+  width: 60%;
+  height: 1px;
+  background: var(--c-rule);
+  opacity: 0.7;
+  border: 0;
+  margin: 12px auto 10px;
+}
+
+.l2c__masthead-tagline {
+  font-family: var(--lm-font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--c-ink);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* ── Deck strip — em-dash leadlines (deepener 2) ────────────── */
+.l2c__deck {
+  border-bottom: 1px solid var(--c-rule);
+  padding: 16px 0 18px;
+  margin-bottom: 36px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 64px;
+  align-items: baseline;
+}
+
+.l2c__deck-cell {
   text-align: center;
+  position: relative;
+}
+
+.l2c__deck-cell + .l2c__deck-cell::before {
+  content: '\2014'; /* em dash */
+  position: absolute;
+  left: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-rule-soft);
+  font-family: var(--lm-font-heading);
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.l2c__deck-k {
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--c-ink-faint);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.l2c__deck-v {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  color: var(--lm-straw);
+}
+
+.l2c__deck-bio {
+  font-family: var(--lm-font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--c-ink-soft);
+  margin: 0 auto;
+  text-align: center;
+  max-width: 60ch;
+  text-wrap: balance;
+  font-feature-settings: 'liga' 1, 'dlig' 1, 'onum' 1;
+}
+
+/* ── Section header ──────────────────────────────────────────── */
+.l2c__section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--c-border);
+  padding-bottom: 14px;
+  margin-bottom: 26px;
+}
+
+.l2c__section-title {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  color: var(--c-rule);
+  margin: 0;
+}
+
+.l2c__section-meta {
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--c-ink-soft);
+}
+
+/* ── Columns ─────────────────────────────────────────────────── */
+.l2c__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--t-colgap);
+  align-items: stretch;
+}
+
+.l2c__columns > .l2c__col + .l2c__col {
+  /* visual hairline between articles handled by ::before below */
+  border-left: 1px solid var(--c-rule-soft);
+  padding-left: var(--t-colgap);
+}
+
+.l2c__col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.l2c__col-no {
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--c-ink-mute);
+  border-left: 3px solid var(--c-rule);
+  padding-left: 10px;
+  margin: 0;
+}
+
+.l2c__col-title {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: var(--t-mod);
+  letter-spacing: 0.04em;
+  color: var(--c-rule);
+  margin: 0;
+  line-height: 1.0;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.l2c__col-deck {
+  font-family: var(--lm-font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--lm-straw);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.l2c__col-rule {
+  width: 60%;
+  height: 1px;
+  background: var(--c-rule-soft);
+  border: 0;
+  margin: 8px auto 4px;
+}
+
+/* ── Figure (right-floated, 200px) ───────────────────────────── */
+.l2c__col-figure {
+  float: right;
+  margin: 6px 0 8px 18px;
+  width: var(--t-figure);
+  height: var(--t-figure);
+  background: var(--c-figure-bg);
+  border: 1.5px solid var(--c-rule);
   border-radius: var(--lm-radius);
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  shape-outside: margin-box;
+}
+
+.l2c__col-figure::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 0.6px solid var(--c-rule-soft);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.l2c__col-figure img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+}
+
+/* ── Body — justified, hyphens, OpenType, drop cap ──────────── */
+.l2c__col-body {
+  font-family: var(--lm-font-body);
+  font-size: var(--t-body);
+  line-height: var(--t-body-lh);
+  color: var(--c-ink-soft);
+  margin: 0 0 10px;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  font-feature-settings: 'liga' 1, 'dlig' 1, 'onum' 1;
+}
+
+/* Drop cap — true 2-line broadsheet via initial-letter (deepener 7),
+ * with float fallback for non-supporting browsers. Both `-webkit-`
+ * and unprefixed declared so Chromium 110+ + Safari pick it up. */
+.l2c__col-body::first-letter {
+  font-family: var(--lm-font-display);
+  font-weight: 900;
+  font-size: 5em;
+  line-height: 0.85;
+  color: var(--c-rule);
+  float: left;
+  padding-right: 8px;
+  padding-top: 4px;
+  -webkit-initial-letter: 2;
+  initial-letter: 2;
+}
+
+@supports (initial-letter: 2) or (-webkit-initial-letter: 2) {
+  .l2c__col-body::first-letter {
+    float: none;
+    padding: 0 8px 0 0;
+    margin: 0;
+    font-size: inherit; /* initial-letter handles size */
+  }
+}
+
+/* End-of-article ornament (deepener 4) — ❦ centred, gold-soft.
+ * Renders per-article on every viewport per period broadsheet
+ * convention. `clear: both` so it always lands below a right-floated
+ * figure that runs longer than the body text. */
+.l2c__col-body::after {
+  content: '\2766'; /* ❦ floral heart */
+  display: block;
+  clear: both;
+  text-align: center;
+  color: var(--c-rule-soft);
+  font-family: var(--lm-font-heading);
+  font-size: 17px;
+  margin: 14px 0 0;
+}
+
+/* ── Meta row — dashed dividers (deepener via dashed) ──────── */
+.l2c__col-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  padding: 12px 0;
+  margin: 8px 0;
+  margin-top: auto;
+  clear: both;
+}
+
+.l2c__col-meta-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.l2c__col-meta-cell:not(:last-child) {
+  border-right: 1px dashed var(--c-border);
+}
+
+.l2c__col-meta-k {
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--c-meta-k);
+}
+
+.l2c__col-meta-v {
+  font-family: var(--lm-font-body);
+  font-feature-settings: 'tnum' 1, 'onum' 1;
+  font-size: 12px;
+  color: var(--c-ink);
+  letter-spacing: 0.04em;
+}
+
+/* ── ModHub status row — state-driven (locked grammar) ──────── */
+.l2c__col-modhub {
+  margin: 14px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px dashed var(--c-border);
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-soft);
+}
+
+/* Hide all state-text spans by default; show the one matching parent state. */
+.l2c__col-modhub-text { display: none; }
+[data-modhub-state="pending"]      .l2c__col-modhub-text[data-state="pending"]      { display: inline; }
+[data-modhub-state="not-submitted"] .l2c__col-modhub-text[data-state="not-submitted"] { display: inline; }
+[data-modhub-state="rejected"]     .l2c__col-modhub-text[data-state="rejected"]     { display: inline; }
+
+/* Leading state-dot indicator, gold-soft. Same per-state visibility chain
+ * as the text spans so dot + text appear together. */
+.l2c__col-modhub-dot {
+  display: none;
+  font-family: var(--lm-font-body);
+  font-size: 1.1em;
+  color: var(--c-rule-soft);
+  margin-right: 6px;
+}
+[data-modhub-state="pending"]       .l2c__col-modhub-dot[data-state="pending"]       { display: inline-block; }
+[data-modhub-state="not-submitted"] .l2c__col-modhub-dot[data-state="not-submitted"] { display: inline-block; }
+[data-modhub-state="rejected"]      .l2c__col-modhub-dot[data-state="rejected"]      { display: inline-block; }
+
+/* When approved, the status line is suppressed entirely. */
+[data-modhub-state="approved"] .l2c__col-modhub { display: none; }
+
+/* ── Actions — outlined buttons ─────────────────────────────── */
+.l2c__col-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: stretch;
+}
+
+.lm-btn {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  padding: 12px 16px;
+  border-radius: 0;
   border: 1px solid transparent;
+  background: transparent;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.lm-btn--primary {
+  color: var(--lm-gold);
+  border-color: var(--lm-gold);
+}
+.lm-btn--primary:hover,
+.lm-btn--primary:focus-visible {
+  background: var(--lm-gold);
+  color: var(--lm-pine);
+}
+
+.lm-btn--ghost {
+  color: var(--c-ink);
+  border-color: var(--c-border);
+}
+.lm-btn--ghost:hover,
+.lm-btn--ghost:focus-visible {
+  border-color: var(--c-ink);
+  color: var(--c-ink);
+}
+
+/* State-driven button visibility:
+ *   - approved        → ModHub button primary, Releases ghost
+ *   - non-approved    → ModHub button hidden, Releases primary
+ */
+.lm-btn--modhub   { display: none; }
+.lm-btn--releases {
+  width: 100%;
+  color: var(--lm-gold);
+  border-color: var(--lm-gold);
+}
+.lm-btn--releases:hover,
+.lm-btn--releases:focus-visible {
+  background: var(--c-rule);
+  color: var(--lm-ink);
+  border-color: var(--c-rule);
+}
+
+[data-modhub-state="approved"] .lm-btn--modhub {
+  display: inline-block;
+  color: var(--lm-gold);
+  border-color: var(--lm-gold);
+}
+[data-modhub-state="approved"] .lm-btn--modhub:hover,
+[data-modhub-state="approved"] .lm-btn--modhub:focus-visible {
+  background: var(--lm-gold);
+  color: var(--lm-pine);
+}
+[data-modhub-state="approved"] .lm-btn--releases {
+  /* Drop primary treatment to ghost when ModHub is approved. */
+  color: var(--c-ink);
+  border-color: var(--c-border);
+  background: transparent;
+}
+[data-modhub-state="approved"] .lm-btn--releases:hover,
+[data-modhub-state="approved"] .lm-btn--releases:focus-visible {
+  background: transparent;
+  border-color: var(--c-ink);
+  color: var(--c-ink);
+}
+
+.l2c__col-link {
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  color: var(--lm-straw);
+  align-self: flex-end;
+  padding-top: 6px;
+  border-top: 1px solid var(--c-border);
+  width: 100%;
+  text-align: right;
   text-decoration: none;
 }
 
-.btn-primary {
-  background: var(--lm-gold);
-  color: var(--lm-ink);
-  border-color: var(--lm-gold);
+.l2c__col-actions .l2c__col-link {
+  margin-top: 6px;
+}
+.l2c__col-link:hover,
+.l2c__col-link:focus-visible {
+  color: var(--c-ink);
+  border-top-color: var(--c-ink);
 }
 
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background: var(--lm-straw);
-  border-color: var(--lm-straw);
-  color: var(--lm-ink);
-}
-
-.btn-disabled {
-  background: transparent;
+/* ── Footer — double rule symmetric to masthead (deepener 8) ── */
+.l2c__footer {
+  margin-top: 56px;
+  border-top: 3px double var(--c-rule);
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-family: var(--lm-font-body);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
   color: var(--lm-straw);
-  border: 1px dashed var(--lm-border);
-  cursor: not-allowed;
-  opacity: 0.75;
 }
 
-.mod-meta {
-  margin: 0.25rem 0 0;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.link-subtle {
+.l2c__footer-signoff {
+  font-family: var(--lm-font-heading);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-variant-caps: normal;
   color: var(--lm-straw);
-  border-bottom-color: rgba(223, 201, 126, 0.3);
 }
 
-/* --- Footer ---------------------------------------------------------- */
+/* ── Tablet/narrow-desktop breakpoint (≤900px) ──────────────── */
+/* Two columns + 200px figures need ~960px of inner width to breathe;
+ * collapse to a single column below that to keep body width readable. */
+@media (max-width: 900px) {
+  :root {
+    --t-title:    72px;
+    --t-figure:   160px;
+  }
 
-.site-footer {
-  margin-top: 3.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--lm-border);
-  text-align: center;
-  color: var(--lm-straw);
-  font-size: 0.95rem;
+  .l2c__inner {
+    padding: 48px 32px 56px;
+  }
+
+  /* Single column; vrule between articles becomes a horizontal break. */
+  .l2c__columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .l2c__columns > .l2c__col + .l2c__col {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--c-border);
+    padding-top: 32px;
+  }
 }
 
-.site-footer p { margin: 0; }
+/* ── Mobile breakpoint (≤720px) ─────────────────────────────── */
+@media (max-width: 720px) {
+  :root {
+    --t-title:    44px;
+    --t-mod:      30px;
+    --t-figure:   120px;
+  }
 
-.flag {
-  font-size: 1.1em;
-  vertical-align: -0.05em;
+  .l2c__inner {
+    padding: 32px 20px 40px;
+  }
+
+  /* Deck strip stacks vertically; em-dash leadlines become rules. */
+  .l2c__deck {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .l2c__deck-cell + .l2c__deck-cell::before {
+    content: '';
+    position: static;
+    transform: none;
+    display: block;
+    width: 40%;
+    height: 1px;
+    background: var(--c-rule-soft);
+    margin: 0 auto 10px;
+  }
+
+  .l2c__col-figure {
+    width: var(--t-figure);
+    height: var(--t-figure);
+    margin: 4px 0 6px 14px;
+  }
+
+  .l2c__masthead-title { font-size: var(--t-title); }
+  .l2c__masthead-sub   { font-size: 14px; letter-spacing: 0.32em; }
+  .l2c__masthead-tagline { font-size: 17px; }
+  .l2c__col-title      { font-size: var(--t-mod); }
+
+  .l2c__footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
 }
 
-/* --- Small screens --------------------------------------------------- */
-
-@media (max-width: 540px) {
-  main { padding: 2rem 1rem 1.5rem; }
-  .hero-tagline { font-size: 1.15rem; }
-  .hero-bio { font-size: 1rem; }
-  .mod-title { font-size: 1.3rem; }
-}
-
-/* --- Reduced motion -------------------------------------------------- */
-
+/* ── Reduced motion ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  a, .btn { transition: none; }
+  a, .lm-btn { transition: none; }
 }
-
-/* --- Overrides: ensure link-subtle inside card stays readable -------- */
-.mod-card a { border-bottom-color: rgba(223, 201, 126, 0.3); }
-.mod-card a:hover,
-.mod-card a:focus-visible { border-bottom-color: var(--lm-straw); }
